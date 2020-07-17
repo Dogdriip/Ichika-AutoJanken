@@ -32,20 +32,28 @@ const getImageHash = async (browser, url) => {
 const eagate_login = async (browser) => {
     const page = await browser.newPage();
     // Go to login page.
-    await page.goto(LOGIN_URL);
+    // await page.goto(LOGIN_URL);
+    await page.goto(LOGIN_URL, { waitUntil: 'networkidle2' });  // well...
 
     // Get correct_pic.
-    const corrPic = await page.$("#id_cpfm_correct_pic");
-    const corrPicSrc = await page.evaluate(e => e.src, corrPic);
-    // const correctPicSrc = await page.$eval("#id_cpfm_correct_pic", e => e.src);  // not working
+    // const corrPic = await page.$("#id_cpfm_correct_pic");
+    // const corrPicSrc = await page.evaluate(e => e.src, corrPic);
+    const corrPicSrc = await page.$eval("#id_cpfm_correct_pic", e => e.src);  // not working
     console.log(`correct_pic : ${corrPicSrc}`);
 
     // Get correct_pic md5 hash.
     const corrPicHash = await getImageHash(browser, corrPicSrc);
     console.log(`correct_pic md5 : ${corrPicHash}`);
 
-    
-
+    // TODO: Configure captcha answer.
+    // TODO: Iterate div array, check each div's inner img hash, check if it's correct.
+    // const choiceListPic = await page.$$eval(".cl_cpfm_choicelistbox", e => );
+    // console.log(choiceListPic);
+    // choiceListPic.forEach((element) => {
+        // const img = await element.$(".cl_cpfm_choicelistpic");
+        // const imgurl = await page.evaluate(e => e.src, img);
+        // console.log(imgurl);
+    // });
 
 
     await page.close();
