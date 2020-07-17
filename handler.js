@@ -11,17 +11,16 @@ const LOGIN_RESRV_URL = BASE_URL + "gate/p/login_complete.html";
 const CAPTCHA_URL = BASE_URL + "gate/p/common/login/api/kcaptcha_generate.html";
 const JANKEN_URL = BASE_URL + "game/bemani/bjm2020/janken/index.html";
 
-module.exports.hello = async event => {
+module.exports.hello = async (event) => {
     const browser = await chromium.puppeteer.launch({
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath,
         // headless: chromium.headless,  // will launch headless chrome
-        headless: true,  // default is also true
+        headless: false,  // default is also true
     });
-    const page = await browser.newPage();
     
-    const res = await login.eagate_login(page);
+    const res = await login.eagate_login(browser);
     console.log(res);
     
     
