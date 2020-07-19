@@ -12,7 +12,7 @@ const doEvent = async (event) => {
   });
 
   await eagateLogin(browser);
-  // await doJanken(browser);
+  await doJanken(browser);
   await eagateLogout(browser);
 
   await browser.close();
