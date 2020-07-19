@@ -1,6 +1,6 @@
 const chromium = require('chrome-aws-lambda');
 
-const login = require('./login');
+const eagate = require('./module/eagate');
 
 // const BASE_URL = 'https://p.eagate.573.jp/';
 // const LOGIN_URL = `${BASE_URL}gate/p/login.html`;
@@ -9,7 +9,7 @@ const login = require('./login');
 // const CAPTCHA_URL = `${BASE_URL}gate/p/common/login/api/kcaptcha_generate.html`;
 // const JANKEN_URL = `${BASE_URL}game/bemani/bjm2020/janken/index.html`;
 
-module.exports.hello = async (event) => {
+const doEvent = async (event) => {
   const browser = await chromium.puppeteer.launch({
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
@@ -18,8 +18,9 @@ module.exports.hello = async (event) => {
     headless: false, // default is also true
   });
 
-  const res = await login.eagateLogin(browser);
-  console.log(res);
+  await eagate.eagateLogin(browser);
+  // TODO: janken!
+  // TODO: Logout from eagate
 
   await browser.close();
 
@@ -38,3 +39,5 @@ module.exports.hello = async (event) => {
   // Use this code if you don't use the http event with the LAMBDA-PROXY integration
   // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
+
+module.exports.doEvent = doEvent;
