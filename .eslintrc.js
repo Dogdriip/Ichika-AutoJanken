@@ -14,5 +14,6 @@ module.exports = {
     'no-plusplus': 0,
     'vars-on-top': 0,
     'no-restricted-syntax': [0, 'ForOfStatement'],
+    'linebreak-style': 0,
   },
 };

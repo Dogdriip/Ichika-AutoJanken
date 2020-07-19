@@ -1,13 +1,7 @@
 const chromium = require('chrome-aws-lambda');
 
-const eagate = require('./module/eagate');
-
-// const BASE_URL = 'https://p.eagate.573.jp/';
-// const LOGIN_URL = `${BASE_URL}gate/p/login.html`;
-// const LOGIN_AUTH_URL = `${BASE_URL}gate/p/common/login/api/login_auth.html`;
-// const LOGIN_RESRV_URL = `${BASE_URL}gate/p/login_complete.html`;
-// const CAPTCHA_URL = `${BASE_URL}gate/p/common/login/api/kcaptcha_generate.html`;
-// const JANKEN_URL = `${BASE_URL}game/bemani/bjm2020/janken/index.html`;
+const { eagateLogin } = require('./module/eagate');
+const { doJanken } = require('./module/janken');
 
 const doEvent = async (event) => {
   const browser = await chromium.puppeteer.launch({
@@ -18,8 +12,8 @@ const doEvent = async (event) => {
     headless: false, // default is also true
   });
 
-  await eagate.eagateLogin(browser);
-  // TODO: janken!
+  await eagateLogin(browser);
+  await doJanken(browser);
   // TODO: Logout from eagate
 
   await browser.close();
