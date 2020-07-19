@@ -1,6 +1,6 @@
 const chromium = require('chrome-aws-lambda');
 
-const { eagateLogin } = require('./module/eagate');
+const { eagateLogin, eagateLogout } = require('./module/eagate');
 const { doJanken } = require('./module/janken');
 
 const doEvent = async (event) => {
@@ -8,13 +8,12 @@ const doEvent = async (event) => {
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
     executablePath: await chromium.executablePath,
-    // headless: chromium.headless,  // will launch headless chrome
-    headless: false, // default is also true
+    headless: false, // default is true
   });
 
   await eagateLogin(browser);
-  await doJanken(browser);
-  // TODO: Logout from eagate
+  // await doJanken(browser);
+  await eagateLogout(browser);
 
   await browser.close();
 
