@@ -4,3 +4,6 @@ jspm_packages
 
 # Serverless directories
 .serverless
+
+login_data.json
+test.png

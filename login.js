@@ -8,11 +8,13 @@ const LOGIN_AUTH_URL = BASE_URL + "gate/p/common/login/api/login_auth.html";
 const LOGIN_RESRV_URL = BASE_URL + "gate/p/login_complete.html";
 
 const CAPTCHA_JSON = "captcha.json";
+const LOGIN_DATA_JSON = "login_data.json";
 
 const rawdata = fs.readFileSync(CAPTCHA_JSON);
 const captchaAns = JSON.parse(rawdata);
 
-
+const data = fs.readFileSync(LOGIN_DATA_JSON);
+const loginData = JSON.parse(data);
 
 
 
@@ -74,21 +76,17 @@ const eagate_login = async (browser) => {
         
     }
 
-    
+    // Fill input form with login_data.json.
+    // Be aware of usage of local variables in eval.
+    // See https://stackoverflow.com/questions/47966510/how-to-fill-an-input-field-using-puppeteer
+    await page.$eval(`input[name="nm_login_id"]`, (e, value) => e.value = value, loginData["id"]);
+    await page.$eval(`input[name="nm_paswords"]`, (e, value) => e.value = value, loginData["password"]);
 
-    // TODO: Fill input form, click login.
-    
+    // Click login btn and wait until loaded.
+    await page.click(".cl_lgfm_loginbtn");
+    await page.waitForNavigation();
 
-
-    // console.log(choiceList);
-    // choiceListPic.forEach((element) => {
-        // const img = await element.$(".cl_cpfm_choicelistpic");
-        // const imgurl = await page.evaluate(e => e.src, img);
-        // console.log(imgurl);
-    // });
-
-
-    await page.close();
+    // await page.screenshot({ path: 'test.png' });
 
     return 'success';
 }
