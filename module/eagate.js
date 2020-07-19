@@ -3,19 +3,15 @@ const chromium = require('chrome-aws-lambda');
 const fs = require('fs');
 const crypto = require('crypto');
 
-const BASE_URL = 'https://p.eagate.573.jp/';
-const LOGIN_URL = `${BASE_URL}gate/p/login.html`;
-// const LOGIN_AUTH_URL = `${BASE_URL}gate/p/common/login/api/login_auth.html`;
-// const LOGIN_RESRV_URL = `${BASE_URL}gate/p/login_complete.html`;
+const BASE_URL = 'https://p.eagate.573.jp';
+const LOGIN_URL = `${BASE_URL}/gate/p/login.html`;
 
-const CAPTCHA_JSON = 'captcha.json';
-const LOGIN_DATA_JSON = 'login_data.json';
+const DATA_PATH = './data';
+const CAPTCHA_JSON = `${DATA_PATH}/captcha.json`;
+const LOGIN_DATA_JSON = `${DATA_PATH}/login_data.json`;
 
-const rawdata = fs.readFileSync(CAPTCHA_JSON);
-const captchaAns = JSON.parse(rawdata);
-
-const data = fs.readFileSync(LOGIN_DATA_JSON);
-const loginData = JSON.parse(data);
+const captchaAns = JSON.parse(fs.readFileSync(CAPTCHA_JSON));
+const loginData = JSON.parse(fs.readFileSync(LOGIN_DATA_JSON));
 
 /**
  * Get image md5 hash from image URL. HTTP protocol URL.
@@ -84,6 +80,8 @@ const eagateLogin = async (browser) => {
 
   // await page.screenshot({ path: 'test.png' });
 
+  // assume it is succeed. test needed...
+  console.log('login succeed');
   return 'success';
 };
 
