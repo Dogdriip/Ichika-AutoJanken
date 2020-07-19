@@ -82,6 +82,8 @@ const eagateLogin = async (browser) => {
 
   // assume it is succeed. test needed...
   console.log('login succeed');
+
+  await page.close();
   return 'success';
 };
 
