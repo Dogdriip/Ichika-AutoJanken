@@ -5,6 +5,7 @@ const crypto = require('crypto');
 
 const BASE_URL = 'https://p.eagate.573.jp';
 const LOGIN_URL = `${BASE_URL}/gate/p/login.html`;
+const LOGOUT_URL = `${BASE_URL}/gate/p/logout.html`;
 
 const DATA_PATH = './data';
 const CAPTCHA_JSON = `${DATA_PATH}/captcha.json`;
@@ -87,4 +88,16 @@ const eagateLogin = async (browser) => {
   return 'success';
 };
 
+/**
+ * Logout from eagate.
+ */
+const eagateLogout = async (browser) => {
+  const page = await browser.newPage();
+  await page.goto(LOGOUT_URL, { waitUntil: 'networkidle2' });
+  await page.close();
+  console.log('logout succeed');
+  return 'success';
+};
+
 module.exports.eagateLogin = eagateLogin;
+module.exports.eagateLogout = eagateLogout;
